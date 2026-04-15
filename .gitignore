@@ -1,0 +1,29 @@
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Secrets / local config
+.env
+
+# VS Code (your personal setup)
+.vscode/
+
+# Jupyter (if you use it)
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Local AI models / weights
+models/
+
+# Vector DB (Chroma, etc.)
+vectorstore/
+
+# Personal study materials (not for repo)
+private_data/
