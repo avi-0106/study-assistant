@@ -1,4 +1,4 @@
-import ollama
+import ollama # type: ignore
 
 response = ollama.chat(
     model="llama3.2",
