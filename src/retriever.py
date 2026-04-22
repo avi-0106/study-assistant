@@ -11,4 +11,8 @@ def retrieve(query, collection_name="study_assistant", n_results=3):
         query_texts=[query],
         n_results=n_results
     )
-    return results["documents"][0], results["distances"][0]
+    chunks = results["documents"][0]
+    metadatas = results["metadatas"][0]
+    distances = results["distances"][0]
+
+    return chunks, metadatas, distances

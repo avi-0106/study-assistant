@@ -1,19 +1,29 @@
-from pypdf import PdfReader # type: ignore
+from pypdf import PdfReader  # type: ignore
 
 def load_pdf(file_path):
     reader = PdfReader(file_path)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text()
+    pages = []
+    for page_num, page in enumerate(reader.pages):
+        text = page.extract_text()
+        if text:
+            pages.append({
+                "text": text,
+                "page": page_num + 1,
+                "source": file_path
+            })
+    return pages
 
-    return text
-
-def chunk_text(text, chunk_size = 500, overlap=50):
+def chunk_text(pages, chunk_size=500, overlap=50):
     chunks = []
-    start = 0
-    while start < len(text):
-        end = start + chunk_size
-        chunk = text[start:end]
-        chunks.append(chunk)
-        start = end - overlap
+    for page in pages:
+        text = page["text"]
+        start = 0
+        while start < len(text):
+            end = start + chunk_size
+            chunks.append({
+                "text": text[start:end],
+                "page": page["page"],
+                "source": page["source"]
+            })
+            start = end - overlap
     return chunks

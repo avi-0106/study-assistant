@@ -17,8 +17,9 @@ def store_chunks(chunks, collection_name = "study_assistant"):
     )
     for i, chunk in enumerate(chunks):
         collection.add(
-            documents = [chunk],
-            ids = [f"chunk_{i}"]
+            documents=[chunk["text"]],
+            metadatas=[{"page": chunk["page"], "source": chunk["source"]}],
+            ids=[f"chunk_{i}"]
         )
     print(f"Stored {len(chunks)} chunks in Chroma")
     return collection
