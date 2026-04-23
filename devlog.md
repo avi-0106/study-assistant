@@ -1,5 +1,13 @@
 # Devlog
 
+## 2026-04-23
+- Built generator.py — full RAG pipeline working end to end
+- First real answer generated from GLM lecture notes using llama3.2
+
+## 2026-04-22
+- Added page number and source metadata to chunks
+- Updated embedder.py and retriever.py to store and return metadata
+
 ## 2026-04-21
 - Added retriever.py — retrieval step complete
 - First successful query returned relevant GLM lecture chunks from ChromaDB
