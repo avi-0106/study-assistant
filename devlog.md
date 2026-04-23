@@ -6,6 +6,9 @@
 - Improved ingestor.py with sentence-aware chunking using nltk
 - Added requirements.txt
 - Built pipeline.py - single entry point wiring full RAG pipeline
+- Ingested all 6 GLM PDFs into single collection
+- Added reset_collection function to pipeline.py
+- Answer quality improved significantly with more context
 
 ## 2026-04-22
 - Added page number and source metadata to chunks
