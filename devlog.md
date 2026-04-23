@@ -9,6 +9,7 @@
 - Ingested all 6 GLM PDFs into single collection
 - Added reset_collection function to pipeline.py
 - Answer quality improved significantly with more context
+- Built Streamlit UI in app.py - upload PDFs, ask questions through browser
 
 ## 2026-04-22
 - Added page number and source metadata to chunks
