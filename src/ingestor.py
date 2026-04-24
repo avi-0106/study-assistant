@@ -22,6 +22,7 @@ def chunk_text(pages, chunk_size=500, overlap=50):
         sentences = nltk.sent_tokenize(page["text"])
         current_chunk = ""
         for sentence in sentences:
+            sentence = sentence[:400]
             if len(current_chunk) + len(sentence) <= chunk_size:
                 current_chunk += " " + sentence
             else:
