@@ -1,5 +1,11 @@
 # Devlog
 
+## 2026-04-24
+- Added chat interface with session memory
+- Added source display with page numbers per answer
+- Fixed chunk size limit for large PDFs/books
+- Successfully ingested 12.7MB textbook
+
 ## 2026-04-23
 - Built generator.py - full RAG pipeline working end to end
 - First real answer generated from GLM lecture notes using llama3.2
