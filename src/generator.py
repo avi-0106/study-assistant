@@ -5,14 +5,21 @@ def generate(query, chunks, metadatas):
     for chunk, meta in zip(chunks, metadatas):
         context += f"[Page {meta['page']} - {meta['source']}]\n{chunk}\n\n"
 
-    prompt = f"""You are a helpful study assistant. Use the following context from the lecture materials to answer the question. If the answer is not in the context, say so honestly.
+    prompt = f"""You are an expert academic tutor helping a Master's student in Data Science at TU Dortmund understand their course material.
 
-    Context:
-    {context}
+Your job is to:
+- Answer questions clearly and precisely using the provided context
+- Explain concepts in a way that builds genuine understanding, not just memorization
+- Use examples where helpful
+- If the answer is not fully in the context, say so honestly but still help with what you know
+- Keep answers focused and structured
 
-    Question: {query}
+Context from lecture materials:
+{context}
 
-    Answer:"""
+Question: {query}
+
+Answer:"""
 
     response = ollama.chat(
         model="llama3.2",
