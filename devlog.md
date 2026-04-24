@@ -5,6 +5,8 @@
 - Added source display with page numbers per answer
 - Fixed chunk size limit for large PDFs/books
 - Successfully ingested 12.7MB textbook
+- Improved generator prompt with tutor personality
+- Increased retrieved chunks from 3 to 5
 
 ## 2026-04-23
 - Built generator.py - full RAG pipeline working end to end
