@@ -18,15 +18,16 @@ if "current_collection" not in st.session_state:
 with st.sidebar:
     st.header("Upload Materials")
     collection_name = st.text_input("Subject name", placeholder="e.g. glm, stats, ml")
-    uploaded_file = st.file_uploader("Upload PDF", type="pdf")
+    uploaded_files = st.file_uploader("Upload PDFs", type="pdf", accept_multiple_files=True)
 
     if st.button("Ingest"):
-        if uploaded_file and collection_name:
-            with open(f"data/sample/{uploaded_file.name}", "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            with st.spinner("Ingesting..."):
-                ingest(f"data/sample/{uploaded_file.name}", collection_name)
-            st.success(f"Ingested into '{collection_name}'")
+        if uploaded_files and collection_name:
+            for uploaded_file in uploaded_files:
+                with open(f"data/sample/{uploaded_file.name}", "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+                with st.spinner(f"Ingesting {uploaded_file.name}..."):
+                    ingest(f"data/sample/{uploaded_file.name}", collection_name)
+            st.success(f"Ingested {len(uploaded_files)} file(s) into '{collection_name}'")
         else:
             st.warning("Please provide both a subject name and a PDF")
 
@@ -59,13 +60,11 @@ if query:
     if not st.session_state.current_collection:
         st.warning("Please set an active subject in the sidebar first")
     else:
-        # Add user message
         st.session_state.messages.append({"role": "user", "content": query})
 
         with st.chat_message("user"):
             st.write(query)
 
-        # Get answer
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 chunks, metadatas, distances = __import__('retriever').retrieve(
@@ -78,7 +77,6 @@ if query:
                 for meta in metadatas:
                     st.caption(f"Page {meta['page']} - {meta['source']}")
 
-        # Save assistant message with sources
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,

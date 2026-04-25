@@ -27,3 +27,6 @@ vectorstore/
 
 # Personal study materials (not for repo)
 private_data/
+
+# Study materials / PDFs
+data/
