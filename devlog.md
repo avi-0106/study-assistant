@@ -1,5 +1,10 @@
 # Devlog
 
+## 2026-04-25
+- Auto-detect lecture vs textbook chunking strategy
+- Fixed multiple PDF upload in UI
+- Removed PDFs from git tracking, added data/ to .gitignore
+
 ## 2026-04-24
 - Added chat interface with session memory
 - Added source display with page numbers per answer
