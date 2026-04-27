@@ -1,5 +1,11 @@
 # Devlog
 
+## 2026-04-27
+- Fixed duplicate chunk IDs in embedder.py
+- Added subject dropdown - auto-reads collections from ChromaDB
+- Added relevance threshold filter for sources display (threshold: 0.5)
+- Tested multi-page and single-page source retrieval - working correctly
+
 ## 2026-04-25
 - Auto-detect lecture vs textbook chunking strategy
 - Fixed multiple PDF upload in UI
