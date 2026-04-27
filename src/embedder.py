@@ -19,7 +19,7 @@ def store_chunks(chunks, collection_name = "study_assistant"):
         collection.add(
             documents=[chunk["text"]],
             metadatas=[{"page": chunk["page"], "source": chunk["source"]}],
-            ids=[f"chunk_{i}"]
+            ids=[f"{chunk['source']}_page{chunk['page']}_{i}"]
         )
     print(f"Stored {len(chunks)} chunks in Chroma")
     return collection

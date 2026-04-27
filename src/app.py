@@ -2,6 +2,7 @@ import sys
 sys.path.append("src")
 
 import streamlit as st  # type: ignore
+import chromadb  # type: ignore
 from pipeline import ingest, ask, reset_collection
 
 st.title("Study Assistant")
@@ -33,9 +34,16 @@ with st.sidebar:
 
     st.divider()
     st.header("Active Subject")
-    active_collection = st.text_input("Subject to chat with", placeholder="e.g. glm")
-    if active_collection:
+    client = chromadb.PersistentClient(path="vectorstore")
+    collections = client.list_collections()
+    collection_names = [col.name for col in collections]
+
+    if collection_names:
+        active_collection = st.selectbox("Subject to chat with", collection_names)
         st.session_state.current_collection = active_collection
+    else:
+        st.warning("No subjects ingested yet")
+        st.session_state.current_collection = ""
 
     if st.button("Clear Chat"):
         st.session_state.messages = []
@@ -51,7 +59,8 @@ for message in st.session_state.messages:
         if "sources" in message:
             with st.expander("Sources"):
                 for src in message["sources"]:
-                    st.caption(f"Page {src['page']} - {src['source']}")
+                    if src.get("distance", 0) < 0.5:
+                        st.caption(f"Page {src['page']} - {src['source']}")
 
 # Chat input
 query = st.chat_input("Ask a question about your lecture notes...")
@@ -73,12 +82,15 @@ if query:
                 from generator import generate
                 answer = generate(query, chunks, metadatas)
             st.write(answer)
-            with st.expander("Sources"):
-                for meta in metadatas:
-                    st.caption(f"Page {meta['page']} - {meta['source']}")
+            relevant_sources = [(meta, dist) for meta, dist in zip(metadatas, distances) if dist < 0.5]
+            if relevant_sources:
+                with st.expander("Sources"):
+                    for meta, dist in relevant_sources:
+                        st.caption(f"Page {meta['page']} - {meta['source']} (relevance: {1-dist:.2f})")
 
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,
-            "sources": metadatas
+            "sources": [{"page": meta["page"], "source": meta["source"], "distance": dist}
+                       for meta, dist in zip(metadatas, distances)]
         })
