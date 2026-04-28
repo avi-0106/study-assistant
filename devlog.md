@@ -1,5 +1,9 @@
 # Devlog
 
+## 2026-04-28
+- Added model selector in sidebar - auto-detects installed Ollama models, filters embedding models
+- Cleaned up imports in app.py
+
 ## 2026-04-27
 - Fixed duplicate chunk IDs in embedder.py
 - Added subject dropdown - auto-reads collections from ChromaDB
