@@ -1,9 +1,13 @@
 import sys
 sys.path.append("src")
 
+import ollama  # type: ignore
+
 import streamlit as st  # type: ignore
 import chromadb  # type: ignore
 from pipeline import ingest, ask, reset_collection
+from retriever import retrieve
+from generator import generate
 
 st.title("Study Assistant")
 st.caption("Your local, private AI study assistant")
@@ -14,6 +18,9 @@ if "messages" not in st.session_state:
 
 if "current_collection" not in st.session_state:
     st.session_state.current_collection = ""
+
+if "selected_model" not in st.session_state:
+    st.session_state.selected_model = "llama3.2"
 
 # Sidebar - ingestion
 with st.sidebar:
@@ -49,6 +56,12 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
+    st.divider()
+    st.header("Model")
+    installed_models = [m.model for m in ollama.list().models if "embed" not in m.model]
+    selected_model = st.selectbox("LLM Model", installed_models)
+    st.session_state.selected_model = selected_model
+
 # Main - chat interface
 st.header("Chat")
 
@@ -59,7 +72,7 @@ for message in st.session_state.messages:
         if "sources" in message:
             with st.expander("Sources"):
                 for src in message["sources"]:
-                    if src.get("distance", 0) < 0.5:
+                    if src.get("distance", 0) < 0.65:
                         st.caption(f"Page {src['page']} - {src['source']}")
 
 # Chat input
@@ -76,13 +89,12 @@ if query:
 
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
-                chunks, metadatas, distances = __import__('retriever').retrieve(
+                chunks, metadatas, distances = retrieve(
                     query, collection_name=st.session_state.current_collection, n_results=5
                 )
-                from generator import generate
-                answer = generate(query, chunks, metadatas)
+                answer = generate(query, chunks, metadatas, model=st.session_state.selected_model)
             st.write(answer)
-            relevant_sources = [(meta, dist) for meta, dist in zip(metadatas, distances) if dist < 0.5]
+            relevant_sources = [(meta, dist) for meta, dist in zip(metadatas, distances) if dist < 0.65]
             if relevant_sources:
                 with st.expander("Sources"):
                     for meta, dist in relevant_sources:
