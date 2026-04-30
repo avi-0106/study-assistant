@@ -1,5 +1,12 @@
 # Devlog
 
+## 2026-04-30
+- Created examiner.py - generates MCQ and long-form questions from lecture chunks
+- Created pages/exam.py - exam UI with subject picker, question type, count selector
+- MCQ: one question at a time, click to answer, instant explanation, locked after selection
+- Long-form: one question at a time, write on paper, click next
+- Fixed JSON backslash escape error for long-form generation
+
 ## 2026-04-28
 - Added model selector in sidebar - auto-detects installed Ollama models, filters embedding models
 - Cleaned up imports in app.py
