@@ -17,7 +17,7 @@ Generate exactly {count} multiple choice questions based on the context below.
 Rules:
 - Each question must have exactly 4 options: A, B, C, D
 - Only one option is correct
-- For each option, write a short explanation (5-6 words) of why it is correct or incorrect
+- Write a detailed explanation paragraph covering why the correct answer is right and why each of the other options is wrong
 - Base questions strictly on the provided context
 
 Return ONLY a JSON array. No extra text, no markdown. Format:
@@ -26,12 +26,7 @@ Return ONLY a JSON array. No extra text, no markdown. Format:
     "question": "...",
     "options": {{"A": "...", "B": "...", "C": "...", "D": "..."}},
     "correct": "A",
-    "explanations": {{
-      "A": "why A is correct or incorrect",
-      "B": "why B is correct or incorrect",
-      "C": "why C is correct or incorrect",
-      "D": "why D is correct or incorrect"
-    }}
+    "explanation": "A detailed paragraph explaining why the correct answer is right and why each wrong option is incorrect"
   }}
 ]
 

@@ -87,7 +87,7 @@ else:
                 if not already_answered:
                     st.session_state.selected_answers[idx] = option
                     st.session_state.answered[idx] = True
-                    st.session_state.explanations[idx] = question["explanations"]
+                    st.session_state.explanations[idx] = question["explanation"]
                     st.rerun()
 
         if already_answered:
@@ -97,9 +97,8 @@ else:
                 st.success(f"✅ Correct!")
             else:
                 st.error(f"❌ Wrong! Correct answer was {correct}")
-            st.markdown("**Explanations:**")
-            for option, explanation in st.session_state.explanations[idx].items():
-                st.caption(f"**{option}:** {explanation}")
+            st.markdown("**Explanation:**")
+            st.caption(st.session_state.explanations[idx])
 
     else:  # long-form
         st.info("Write your answer on paper, then click Next when ready.")
