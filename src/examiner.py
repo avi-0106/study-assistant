@@ -65,5 +65,17 @@ Context:
     raw = re.sub(r"```json|```", "", raw).strip()
     raw = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
     
-    questions = json.loads(raw)
-    return questions
+    try:
+        questions = json.loads(raw)
+        return questions
+    except json.JSONDecodeError:
+        # Retry once if JSON is malformed
+        response = ollama.chat(
+            model=model,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        raw = response['message']['content']
+        raw = re.sub(r"```json|```", "", raw).strip()
+        raw = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
+        questions = json.loads(raw)
+        return questions

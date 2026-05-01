@@ -24,6 +24,9 @@ if "answered" not in st.session_state:
 if "exam_started" not in st.session_state:
     st.session_state.exam_started = False
 
+if "exam_finished" not in st.session_state:
+    st.session_state.exam_finished = False
+
 if "explanations" not in st.session_state:
     st.session_state.explanations = {}
 
@@ -65,10 +68,27 @@ with st.sidebar:
                 st.session_state.answered = {}
                 st.session_state.explanations = {}
                 st.session_state.exam_started = True
+                st.session_state.exam_finished = False
             st.rerun()
 
 if not st.session_state.exam_started:
-    st.info("Configure your exam in the sidebar and click Generate Exam to begin.")
+    if st.session_state.exam_finished:
+        correct = sum(1 for i, q in enumerate(st.session_state.questions)
+                     if q.get("correct") == st.session_state.selected_answers.get(i))
+        total = len(st.session_state.questions)
+        st.markdown(f"## Your Score: {correct}/{total}")
+        if correct == total:
+            st.success("Perfect score! Excellent work!")
+        elif correct >= total * 0.7:
+            st.info("Good job! Review the ones you missed.")
+        else:
+            st.warning("Keep studying! You'll get there.")
+        if st.button("Start New Exam"):
+            st.session_state.exam_finished = False
+            st.session_state.questions = []
+            st.rerun()
+    else:
+        st.info("Configure your exam in the sidebar and click Generate Exam to begin.")
 else:
     questions = st.session_state.questions
     idx = st.session_state.current_index
@@ -121,5 +141,6 @@ else:
         else:
             if col2.button("Finish ✅"):
                 st.session_state.exam_started = False
+                st.session_state.exam_finished = True
                 st.session_state.current_index = 0
                 st.rerun()
