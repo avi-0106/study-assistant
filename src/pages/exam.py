@@ -82,21 +82,23 @@ else:
     already_answered = st.session_state.answered.get(idx, False)
 
     if "options" in question:  # MCQ
-        for option, text in question["options"].items():
-            if st.button(f"{option}) {text}", key=f"opt_{idx}_{option}"):
-                if not already_answered:
+        if not already_answered:
+            for option, text in question["options"].items():
+                if st.button(f"{option}) {text}", key=f"opt_{idx}_{option}"):
                     st.session_state.selected_answers[idx] = option
                     st.session_state.answered[idx] = True
                     st.session_state.explanations[idx] = question["explanation"]
                     st.rerun()
-
-        if already_answered:
+        else:
             selected = st.session_state.selected_answers[idx]
             correct = question["correct"]
-            if selected == correct:
-                st.success(f"✅ Correct!")
-            else:
-                st.error(f"❌ Wrong! Correct answer was {correct}")
+            for option, text in question["options"].items():
+                if option == correct:
+                    st.success(f"✅ {option}) {text}")
+                elif option == selected:
+                    st.error(f"❌ {option}) {text}")
+                else:
+                    st.write(f"{option}) {text}")
             st.markdown("**Explanation:**")
             st.caption(st.session_state.explanations[idx])
 
