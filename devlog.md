@@ -1,5 +1,11 @@
 # Devlog
 
+## 2026-05-01
+- Added MCQ score screen after finishing exam
+- Fixed MCQ option highlighting after answer selection
+- Improved MCQ explanation to detailed paragraph
+- Added JSON retry logic in examiner.py for malformed responses
+
 ## 2026-04-30
 - Created examiner.py - generates MCQ and long-form questions from lecture chunks
 - Created pages/exam.py - exam UI with subject picker, question type, count selector
