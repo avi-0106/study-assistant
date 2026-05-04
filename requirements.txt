@@ -3,6 +3,7 @@ annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.13.0
 attrs==26.1.0
+av==17.0.1
 bcrypt==5.0.0
 blinker==1.9.0
 build==1.4.3
@@ -12,7 +13,9 @@ charset-normalizer==3.4.7
 chromadb==1.5.8
 click==8.3.2
 colorama==0.4.6
+ctranslate2==4.7.1
 durationpy==0.10
+faster-whisper==1.2.1
 filelock==3.28.0
 flatbuffers==25.12.19
 fsspec==2026.3.0
@@ -73,6 +76,7 @@ pydantic==2.13.1
 pydantic-settings==2.13.1
 pydantic_core==2.46.1
 pydeck==0.9.2
+pydub==0.25.1
 Pygments==2.20.0
 pypdf==6.10.2
 PyPika==0.51.1
@@ -87,10 +91,12 @@ requests-oauthlib==2.0.0
 requests-toolbelt==1.0.0
 rich==15.0.0
 rpds-py==0.30.0
+setuptools==82.0.1
 shellingham==1.5.4
 six==1.17.0
 smmap==5.0.3
 streamlit==1.56.0
+streamlit-audiorecorder==0.0.6
 sympy==1.14.0
 tenacity==9.1.4
 tokenizers==0.22.2

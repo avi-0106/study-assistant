@@ -2,12 +2,14 @@ import sys
 sys.path.append("src")
 
 import ollama  # type: ignore
-
 import streamlit as st  # type: ignore
 import chromadb  # type: ignore
+from audiorecorder import audiorecorder # type: ignore
 from pipeline import ingest, ask, reset_collection
 from retriever import retrieve
 from generator import generate
+from transcriber import transcribe
+import tempfile
 
 st.title("Study Assistant")
 st.caption("Your local, private AI study assistant")
@@ -21,6 +23,12 @@ if "current_collection" not in st.session_state:
 
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = "llama3.2"
+
+if "voice_query" not in st.session_state:
+    st.session_state.voice_query = ""
+
+if "last_audio_hash" not in st.session_state:
+    st.session_state.last_audio_hash = None
 
 # Sidebar - ingestion
 with st.sidebar:
@@ -65,6 +73,18 @@ with st.sidebar:
 # Main - chat interface
 st.header("Chat")
 
+# Voice input
+audio = audiorecorder("🎙️ Record", "⏹️ Stop")
+if len(audio) > 0 and audio.duration_seconds > 0:
+    audio_hash = hash(audio.raw_data)
+    if audio_hash != st.session_state.last_audio_hash:
+        st.session_state.last_audio_hash = audio_hash
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+            audio.export(f.name, format="wav")
+            with st.spinner("Transcribing..."):
+                st.session_state.voice_query = transcribe(f.name)
+        st.rerun()
+
 # Display chat history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -75,8 +95,13 @@ for message in st.session_state.messages:
                     if src.get("distance", 0) < 0.65:
                         st.caption(f"Page {src['page']} - {src['source']}")
 
-# Chat input
+# Chat input - prefilled with voice query if available
 query = st.chat_input("Ask a question about your lecture notes...")
+
+# Use voice query if no typed query
+if not query and st.session_state.voice_query:
+    query = st.session_state.voice_query
+    st.session_state.voice_query = ""
 
 if query:
     if not st.session_state.current_collection:
