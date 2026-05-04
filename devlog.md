@@ -1,5 +1,11 @@
 # Devlog
 
+## 2026-05-04
+- Added voice input to chat UI using faster-whisper and streamlit-audiorecorder
+- Created transcriber.py - loads Whisper base model, transcribes audio to text
+- Fixed infinite transcription loop using audio hash check
+- Installed ffmpeg for audio processing
+
 ## 2026-05-01
 - Added MCQ score screen after finishing exam
 - Fixed MCQ option highlighting after answer selection
