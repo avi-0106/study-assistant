@@ -1,5 +1,9 @@
 # Devlog
 
+## 2026-05-05
+- Created vision.py - sends images to LLaVA via Ollama, returns text descriptions
+- Tested successfully with LLaVA base model
+
 ## 2026-05-04
 - Added voice input to chat UI using faster-whisper and streamlit-audiorecorder
 - Created transcriber.py - loads Whisper base model, transcribes audio to text
