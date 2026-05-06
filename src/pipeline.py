@@ -15,7 +15,6 @@ def ingest(file_path, collection_name):
     
     # Image chunks
     image_chunks = extract_image_chunks(file_path)
-    print(f"Found {len(image_chunks)} image chunks")
     if image_chunks:
         store_chunks(image_chunks, collection_name=collection_name)
         print(f"Stored {len(image_chunks)} image chunks from {file_path}")
