@@ -1,5 +1,8 @@
 import nltk  # type: ignore
 from pypdf import PdfReader  # type: ignore
+from pdf2image import convert_from_path  # type: ignore
+from vision import describe_image  # type: ignore
+import io
 
 nltk.download('punkt_tab', quiet=True)
 
@@ -15,6 +18,26 @@ def load_pdf(file_path):
                 "source": file_path
             })
     return pages
+
+def extract_image_chunks(file_path):
+    image_chunks = []
+    pages = convert_from_path(file_path, dpi=150)
+    for page_num, page_image in enumerate(pages):
+        print(f"Processing page {page_num + 1} with LLaVA...")
+        img_bytes = io.BytesIO()
+        page_image.save(img_bytes, format="PNG")
+        img_bytes = img_bytes.getvalue()
+        try:
+            description = describe_image(img_bytes)
+            if description:
+                image_chunks.append({
+                    "text": f"[Page {page_num + 1} visual content]: {description}",
+                    "page": page_num + 1,
+                    "source": file_path
+                })
+        except Exception as e:
+            print(f"Skipping page {page_num + 1}: {e}")
+    return image_chunks
 
 def chunk_text(pages, chunk_size=500, overlap=50):
     if not pages:

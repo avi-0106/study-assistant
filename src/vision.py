@@ -8,7 +8,7 @@ def describe_image(image_bytes, model="llava"):
         model=model,
         messages=[{
             "role": "user",
-            "content": "Describe this image in detail. If it contains diagrams, equations, or handwritten notes, transcribe and explain them clearly.",
+            "content": "This is an image from a university lecture slide or textbook. Transcribe ALL text you see including handwritten notes. Describe and explain any diagrams, graphs, plots or equations. Be precise and complete.",
             "images": [image_b64]
         }]
     )
