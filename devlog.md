@@ -1,5 +1,12 @@
 # Devlog
 
+## 2026-05-06
+- Installed pdf2image and poppler for PDF page rendering
+- Updated ingestor.py - renders each PDF page as image, sends to LLaVA
+- LLaVA now reads handwritten notes, diagrams, and visual content from PDFs
+- Tested with GLM lecture PDF - successfully read handwritten annotations
+- Updated vision.py prompt for academic content transcription
+
 ## 2026-05-05
 - Created vision.py - sends images to LLaVA via Ollama, returns text descriptions
 - Tested successfully with LLaVA base model
