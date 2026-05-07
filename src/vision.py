@@ -13,4 +13,4 @@ def describe_image(image_bytes, model="llava"):
         }]
     )
     
-    return response['message']['content']
+    return response['message']['content'][:2000]

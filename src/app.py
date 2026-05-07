@@ -35,6 +35,7 @@ with st.sidebar:
     st.header("Upload Materials")
     collection_name = st.text_input("Subject name", placeholder="e.g. glm, stats, ml")
     uploaded_files = st.file_uploader("Upload PDFs", type="pdf", accept_multiple_files=True)
+    use_vision = st.checkbox("Scan for diagrams and handwritten notes (slower)")
 
     if st.button("Ingest"):
         if uploaded_files and collection_name:
@@ -42,7 +43,7 @@ with st.sidebar:
                 with open(f"data/sample/{uploaded_file.name}", "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 with st.spinner(f"Ingesting {uploaded_file.name}..."):
-                    ingest(f"data/sample/{uploaded_file.name}", collection_name)
+                    ingest(f"data/sample/{uploaded_file.name}", collection_name, use_vision=use_vision)
             st.success(f"Ingested {len(uploaded_files)} file(s) into '{collection_name}'")
         else:
             st.warning("Please provide both a subject name and a PDF")
