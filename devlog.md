@@ -1,5 +1,10 @@
 # Devlog
 
+## 2026-05-07
+- Added vision toggle checkbox in sidebar - user controls when LLaVA runs
+- Fixed LLaVA description truncation to 2000 chars to avoid embedding context limit
+- Tested ingestion with and without vision toggle
+
 ## 2026-05-06
 - Installed pdf2image and poppler for PDF page rendering
 - Updated ingestor.py - renders each PDF page as image, sends to LLaVA
