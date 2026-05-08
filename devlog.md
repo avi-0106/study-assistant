@@ -1,5 +1,10 @@
 # Devlog
 
+## 2026-05-08
+- Created pages/grader.py - upload question + answer PDF, LLaVA reads handwriting, LLM grades
+- Added grade_answers() function to examiner.py
+- Grader works end to end - retrieval query needs improvement later
+
 ## 2026-05-07
 - Added vision toggle checkbox in sidebar - user controls when LLaVA runs
 - Fixed LLaVA description truncation to 2000 chars to avoid embedding context limit
