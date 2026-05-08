@@ -79,3 +79,43 @@ Context:
         raw = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', raw)
         questions = json.loads(raw)
         return questions
+    
+    
+def grade_answers(questions_text, answers_text, chunks, metadatas, model="llama3.2"):
+    context = ""
+    for chunk, meta in zip(chunks, metadatas):
+        context += f"[Page {meta['page']} - {meta['source']}]\n{chunk}\n\n"
+
+    prompt = f"""You are a university exam grader for a Master's level Data Science course.
+
+You have been given:
+1. The exam questions
+2. A student's handwritten answers (transcribed)
+3. Relevant lecture material as reference
+
+Your job:
+- Grade each answer
+- Tell the student what they got right
+- Tell them where they went wrong and why
+- Point them in the right direction without giving the full correct answer
+- Be fair but rigorous
+
+Do NOT give the complete correct answer. Only guide them.
+
+Exam Questions:
+{questions_text}
+
+Student's Answers (transcribed from handwriting):
+{answers_text}
+
+Lecture Material (reference):
+{context}
+
+Provide feedback for each question separately. Be specific and constructive."""
+
+    response = ollama.chat(
+        model=model,
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    return response['message']['content']
