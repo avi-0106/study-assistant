@@ -30,3 +30,6 @@ private_data/
 
 # Study materials / PDFs
 data/
+
+# Temporary test files
+test_image.*

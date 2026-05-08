@@ -1,0 +1,55 @@
+# TODO - Post-MVP Improvements
+# These are known issues and planned features to be addressed after the core MVP is complete.
+
+1. Model selector - "embed" filter is hardcoded, find a proper way to detect 
+   chat vs embedding models via Ollama API
+
+2. Auto-scroll to bottom after each message in chat UI
+
+3. Review .gitignore after MVP
+   - Remove unnecessary ignores
+   - Add anything missing
+
+4. Casual query detection - "Hi" and short queries still trigger RAG pipeline
+   - Distance threshold doesn't work (short words embed close to everything)
+   - Hardcoding casual words is not scalable
+   - Possible solutions: query length check, query classifier model, or LLM-based intent detection
+   - Low priority, revisit after MVP
+
+5. Exam engine - page numbering is broken for PDFs that use 
+   Roman numerals first then switch to Arabic. Fix later.
+
+6. Exam engine - "upload example questions and generate 
+   similar style" feature. Post-MVP.
+
+7. Exam grading - currently only accepts PDF answers. 
+   Add image file support later.
+
+8. MCQ results page - show performance review paragraph after 
+   exam finishes, not just score. Cover what was good, what 
+   was missed, what topics to practice.
+
+9. MCQ answer bias - option A appears as correct answer too 
+   often. Investigate if prompt is causing bias and fix.
+
+10. Re-ingestion with vision - if PDF already ingested without 
+    vision, re-ingesting with vision adds duplicate text chunks.
+    Track ingestion state per PDF to handle this cleanly.
+
+11. Exam page - add "Send to Grader" button after finishing 
+    long-form exam, auto-transfers questions to grader page 
+    without manual PDF download.
+
+12. Grader page - retrieval query uses only first 500 chars 
+    of question PDF. Improve to extract better query from 
+    actual question content.
+
+13. Exam page - generate PDF of questions for long-form exams 
+    (for uploading to grader page)
+
+14. Exam page - generate PDF summary for MCQ (questions + 
+    your answers + explanations) after finishing, so you can 
+    review later
+
+15. Grader page - generate review PDF after grading with 
+    date in filename
