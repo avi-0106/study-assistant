@@ -4,7 +4,7 @@ I wanted something that could test me beyond what assignments offer - something 
 
 A fully local, private AI study companion that helps you learn, get tested, and actually understand your material - not just memorize it.
 
-No API keys. No cloud. No data leaves your machine.
+No API keys. No cloud. (yet)
 
 ---
 
